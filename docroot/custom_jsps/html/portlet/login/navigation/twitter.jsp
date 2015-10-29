@@ -26,8 +26,9 @@
 <%
 String twitterApiKey = PropsUtil.get("twitter.api.key");
 String twitterApiSecret = PropsUtil.get("twitter.api.secret");
-String twitterCallbackURL = PropsUtil.get("twitter.api.callback.url");
 String twitterAuthURL = PropsUtil.get("twitter.api.auth.url");
+String twitterCallbackURL = PrefsPropsUtil.getString(company.getCompanyId(), "twitter.api.callback.url");
+boolean twitterAuthEnabled = PrefsPropsUtil.getBoolean(company.getCompanyId(), "twitter.auth.enabled", true);
 
 OAuthService service = new ServiceBuilder().provider(TwitterApi.class)
 										   .apiKey(twitterApiKey)
@@ -39,15 +40,13 @@ Token requestToken = service.getRequestToken();
 
 String authURL = service.getAuthorizationUrl(requestToken);
 
-//String taglibOpenTwitterLoginWindow = "javascript:var twitterLoginWindow = window.open('" + authURL.toString() + "', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000'); void(''); twitterLoginWindow.focus();";
-
-boolean twitterAuthEnabled = PrefsPropsUtil.getBoolean(company.getCompanyId(), "twitter.auth.enabled", true);
+String taglibOpenTwitterLoginWindow = "javascript:var twitterLoginWindow = window.open('" + authURL.toString() + "', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000'); void(''); twitterLoginWindow.focus();";
 %>
 
 <c:if test="<%= twitterAuthEnabled %>">
 	<liferay-ui:icon
 		message="twitter"
 		src="/html/portlet/login/navigation/twitter.png"
-		url="<%= authURL %>"
+		url="<%= taglibOpenTwitterLoginWindow %>"
 	/>
 </c:if>
