@@ -1,0 +1,9 @@
+*.war
+*.log
+*.project			# needed for Spring Tool Suite
+*.directory
+*.sublime-workspace
+*~ 				# linux tmp files
+*.orig				# p4merge files
+*fuse_hidden*                   # linux files
+/.settings

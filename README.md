@@ -1,0 +1,2 @@
+# twitter-login-hook
+Twitter Single-Sign-On(SSO) implementation for Liferay v6.2+. The auto login flow has been modified in order to support the fact that Twitter does not provide anymore the email address. Because the email is a mandatory field for signing up in Liferay, the user is redirected to the registration flow(in order to fill-in the email) after successfully being authenticated with the relevant Twitter account.
