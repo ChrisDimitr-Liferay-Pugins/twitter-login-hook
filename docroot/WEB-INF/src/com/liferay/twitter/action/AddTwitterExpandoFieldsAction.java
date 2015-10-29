@@ -38,10 +38,7 @@ public class AddTwitterExpandoFieldsAction extends SimpleAction {
 	private static Log _log = LogFactoryUtil.getLog(AddTwitterExpandoFieldsAction.class);
 
 	@Override
-	public void run(String[] ids) throws ActionException {
-		System.out.println("Creating Twitter fields for User table");
-		_log.info("Creating Twitter fields for User table");
-		
+	public void run(String[] ids) throws ActionException {		
 		try {
 			doRun(GetterUtil.getLong(ids[0]));
 		}
@@ -50,10 +47,7 @@ public class AddTwitterExpandoFieldsAction extends SimpleAction {
 		}
 	}
 
-	protected void doRun(long companyId) throws Exception {
-		System.out.println("Create Twitter fields for User table");
-		_log.info("Create Twitter fields for User table");
-		
+	protected void doRun(long companyId) throws Exception {		
 		ExpandoTable expandoTable = null;
 
 		try {

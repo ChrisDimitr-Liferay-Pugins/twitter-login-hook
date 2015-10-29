@@ -37,10 +37,7 @@ public class TwitterAutoLogin extends BaseAutoLogin {
 	private static Log _log = LogFactoryUtil.getLog(TwitterAutoLogin.class);
 	
 	@Override
-	protected String[] doLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("Calling the Auto Login Flow");
-		_log.info("Calling the Auto Login Flow");
-		
+	protected String[] doLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 		long companyId = PortalUtil.getCompanyId(request);
 
 		boolean twitterAuthEnabled = PrefsPropsUtil.getBoolean(companyId, "twitter.auth.enabled", true);

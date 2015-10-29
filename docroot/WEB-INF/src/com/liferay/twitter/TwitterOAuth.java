@@ -62,10 +62,7 @@ public class TwitterOAuth extends BaseStrutsAction {
 	
 	private static Log _log = LogFactoryUtil.getLog(TwitterOAuth.class);
 
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("Calling the Twitter OAUTH Flow");
-		_log.info("Calling the Twitter OAUTH Flow");
-		
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 		HttpSession session = request.getSession();
 
 		String twitterApiKey = PropsUtil.get("twitter.api.key");
@@ -95,19 +92,13 @@ public class TwitterOAuth extends BaseStrutsAction {
 
 		User user = getUser(themeDisplay.getCompanyId(), twitterData);
 				
-		if ( user != null ) {
-			System.out.println("The user with this Twitter Id exists");
-			_log.info("The user with this Twitter Id exists");
-			
+		if ( user != null ) {			
 			session.setAttribute(TwitterConstants.TWITTER_ID_LOGIN, user.getUserId());
 			
 			sendLoginRedirect(request, response);
 			
 			return null;
 		}
-		
-		System.out.println("The user with this Twitter Id does not exist so redirect to create account flow");
-		_log.info("The user with this Twitter Id does not exist so redirect to create account flow");
 		
 		session.setAttribute(TwitterConstants.TWITTER_LOGIN_PENDING, Boolean.TRUE);
 		

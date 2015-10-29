@@ -85,19 +85,13 @@ public class CreateAccountAction extends BaseStrutsPortletAction {
 	
 	private static Log _log = LogFactoryUtil.getLog(CreateAccountAction.class);
 
-	public void processAction(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig, ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
-		System.out.println("Calling the Create Account Flow");
-		_log.info("Calling the Create Account Flow");
-		
+	public void processAction(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig, ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {	
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
 		HttpSession session = request.getSession();
 
 		Boolean twitterLoginPending = (Boolean) session.getAttribute(TwitterConstants.TWITTER_LOGIN_PENDING);
 
-		if ( (twitterLoginPending != null) && twitterLoginPending.booleanValue() ) {
-			System.out.println("Call the Twitter Create Account Flow");
-			_log.info("Call the Twitter Create Account Flow");
-			
+		if ( (twitterLoginPending != null) && twitterLoginPending.booleanValue() ) {			
 			ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 			Company company = themeDisplay.getCompany();
@@ -108,9 +102,6 @@ public class CreateAccountAction extends BaseStrutsPortletAction {
 
 			try {
 				addUser(actionRequest, actionResponse);
-				
-				System.out.println("Redirect to logged in home");
-				_log.info("Redirect to logged in home");
 			}
 			catch ( Exception e ) {
 				if (e instanceof DuplicateUserEmailAddressException ||
@@ -151,10 +142,7 @@ public class CreateAccountAction extends BaseStrutsPortletAction {
 				}
 			}
 		}
-		else {
-			System.out.println("Call the default Create Account Flow");
-			_log.info("Call the default Create Account Flow");
-			
+		else {			
 			originalStrutsPortletAction.processAction(originalStrutsPortletAction, portletConfig, actionRequest, actionResponse);
 		}
 	}
@@ -167,10 +155,7 @@ public class CreateAccountAction extends BaseStrutsPortletAction {
 		originalStrutsPortletAction.serveResource(originalStrutsPortletAction, portletConfig, resourceRequest, resourceResponse);
 	}
 
-	protected void addUser(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
-		System.out.println("Strore the new Twitter User");
-		_log.info("Strore the new Twitter User");
-		
+	protected void addUser(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {		
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
 		HttpSession session = request.getSession();
 
@@ -235,9 +220,6 @@ public class CreateAccountAction extends BaseStrutsPortletAction {
 		session.removeAttribute(TwitterConstants.TWITTER_LOGIN_PENDING);
 
 		String redirect = PortalUtil.getPortalURL(request);
-		
-		System.out.println("The user Twitter User stored successfully");
-		_log.info("The user Twitter User stored successfully");
 
 		actionResponse.sendRedirect(redirect);
 	}
