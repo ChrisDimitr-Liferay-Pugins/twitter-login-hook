@@ -24,26 +24,35 @@
 <%@ include file="/html/portlet/login/init.jsp" %>
 
 <%
-String twitterApiKey = PropsUtil.get("twitter.api.key");
-String twitterApiSecret = PropsUtil.get("twitter.api.secret");
-String twitterAuthURL = PropsUtil.get("twitter.api.auth.url");
-String twitterCallbackURL = PrefsPropsUtil.getString(company.getCompanyId(), "twitter.api.callback.url");
 boolean twitterAuthEnabled = PrefsPropsUtil.getBoolean(company.getCompanyId(), "twitter.auth.enabled", true);
-
-OAuthService service = new ServiceBuilder().provider(TwitterApi.class)
-										   .apiKey(twitterApiKey)
-							               .apiSecret(twitterApiSecret)
-							               .callback(twitterCallbackURL)
-							               .build();
-
-Token requestToken = service.getRequestToken();
-
-String authURL = service.getAuthorizationUrl(requestToken);
-
-String taglibOpenTwitterLoginWindow = "javascript:var twitterLoginWindow = window.open('" + authURL.toString() + "', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000'); void(''); twitterLoginWindow.focus();";
 %>
 
 <c:if test="<%= twitterAuthEnabled %>">
+	<portlet:renderURL var="loginRedirectURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+		<portlet:param name="struts_action" value="/login/login_redirect" />
+	</portlet:renderURL>
+	
+	<%
+	String twitterApiKey = PropsUtil.get("twitter.api.key");
+	String twitterApiSecret = PropsUtil.get("twitter.api.secret");
+	String twitterAuthURL = PropsUtil.get("twitter.api.auth.url");
+	String twitterCallbackURL = PrefsPropsUtil.getString(company.getCompanyId(), "twitter.api.callback.url");
+	
+	twitterCallbackURL = HttpUtil.addParameter(twitterCallbackURL, "redirect", HttpUtil.encodeURL(loginRedirectURL.toString()));
+	
+	OAuthService service = new ServiceBuilder().provider(TwitterApi.class)
+											   .apiKey(twitterApiKey)
+								               .apiSecret(twitterApiSecret)
+								               .callback(twitterCallbackURL)
+								               .build();
+	
+	Token requestToken = service.getRequestToken();
+	
+	String authURL = service.getAuthorizationUrl(requestToken);
+	
+	String taglibOpenTwitterLoginWindow = "javascript:var twitterLoginWindow = window.open('" + authURL.toString() + "', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000'); void(''); twitterLoginWindow.focus();";
+	%>
+	
 	<liferay-ui:icon
 		message="twitter"
 		src="/html/portlet/login/navigation/twitter.png"
